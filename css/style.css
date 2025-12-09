@@ -431,3 +431,22 @@ footer p {
         align-items: flex-start;
     }
 }
+
+.search-container {
+    margin: 2rem 0;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: all 0.3s;
+}
+
+#searchInput:focus {
+    outline: none;
+    border-color: #0b5f00;
+    box-shadow: 0 0 5px rgba(11,95,0,0.3);
+}
