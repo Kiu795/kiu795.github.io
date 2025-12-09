@@ -8,7 +8,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
     line-height: 1.6;
     color: #333;
-    background: #f8f8f8; /* 白灰背景 */
+    background: #f5f5f5;
 }
 
 .container {
@@ -19,7 +19,7 @@ body {
 
 /* Header */
 header {
-    background: linear-gradient(135deg, #000 0%, #555 100%); /* 黑灰渐变 */
+    background: linear-gradient(135deg, #0b5f00 0%, #86ff7d 100%);
     color: white;
     padding: 1.5rem 0;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -54,7 +54,7 @@ nav {
 }
 
 nav a {
-    color: white; /* 白色文字 */
+    color: white;
     text-decoration: none;
     font-weight: 500;
     transition: opacity 0.3s;
@@ -67,7 +67,7 @@ nav a:hover {
 
 /* Hero Section */
 .hero {
-    background: #f5f5f5; /* 浅灰卡片背景 */
+    background: white;
     padding: 3rem 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
@@ -77,7 +77,7 @@ nav a:hover {
 
 .hero h2 {
     font-size: 2.5rem;
-    background: linear-gradient(135deg, #000 0%, #555 100%); /* 黑灰渐变文字 */
+    background: linear-gradient(135deg, #0b5f00 0%, #86ff7d 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -86,34 +86,30 @@ nav a:hover {
 
 .hero p {
     font-size: 1.2rem;
-    color: #666; /* 深灰文字 */
+    color: #666;
 }
 
 /* Posts Grid */
 .posts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* 自动填充列 */
     gap: 1.5rem;
     margin-bottom: 3rem;
 }
 
 .post-card {
-    background: linear-gradient(135deg, #fff 0%, #eee 100%); /* 白灰渐变卡片 */
+    background: white;
     border-radius: 12px;
     padding: 2rem;
     box-shadow: 0 2px 15px rgba(0,0,0,0.08);
     transition: all 0.3s ease;
     cursor: pointer;
     border-left: 4px solid transparent;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 .post-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    border-left-color: #999; /* 灰色hover边框 */
+    border-left-color: #85ff7a;
 }
 
 .post-header {
@@ -127,7 +123,7 @@ nav a:hover {
 
 .post-title {
     font-size: 1.6rem;
-    color: #222; /* 深灰标题 */
+    color: #333;
     font-weight: 700;
     margin: 0;
     flex: 1;
@@ -135,13 +131,13 @@ nav a:hover {
 }
 
 .post-date {
-    color: #666; /* 深灰日期 */
+    color: #888;
     font-size: 0.9rem;
     white-space: nowrap;
 }
 
 .post-excerpt {
-    color: #555; /* 中灰摘要 */
+    color: #666;
     line-height: 1.8;
     margin-bottom: 1rem;
     display: -webkit-box;
@@ -158,7 +154,7 @@ nav a:hover {
 }
 
 .post-category {
-    background: linear-gradient(135deg, #000 0%, #555 100%); /* 黑灰渐变类别 */
+    background: linear-gradient(135deg, #0b5f00 0%, #039a00 100%);
     color: white;
     padding: 0.4rem 1rem;
     border-radius: 20px;
@@ -173,8 +169,8 @@ nav a:hover {
 }
 
 .tag {
-    background: #ddd; /* 浅灰tag背景 */
-    color: #333; /* 深灰tag文字 */
+    background: #eaf6e8;
+    color: #6dea66;
     padding: 0.3rem 0.8rem;
     border-radius: 15px;
     font-size: 0.85rem;
@@ -183,7 +179,7 @@ nav a:hover {
 
 /* Post Detail */
 .post-detail {
-    background: #f5f5f5; /* 浅灰背景 */
+    background: white;
     border-radius: 12px;
     padding: 3rem;
     box-shadow: 0 2px 15px rgba(0,0,0,0.08);
@@ -196,7 +192,7 @@ nav a:hover {
 .post-detail h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: #222; /* 深灰标题 */
+    color: #333;
     line-height: 1.3;
 }
 
@@ -205,22 +201,25 @@ nav a:hover {
     gap: 2rem;
     padding: 1rem 0;
     margin-bottom: 2rem;
-    border-bottom: 2px solid #ccc; /* 灰色分割线 */
+    border-bottom: 2px solid #f0f0f0;
     flex-wrap: wrap;
 }
 
 .post-detail .post-info span {
-    color: #666; /* 深灰文字 */
+    color: #666;
     font-size: 0.95rem;
 }
 
 /* Markdown Content Styles */
 .markdown-content {
-    color: #333;
+    color: #333333;
     line-height: 1.8;
 }
 
-.markdown-content h1,
+.markdown-content h1 {
+    color: #007d08;
+}
+
 .markdown-content h2,
 .markdown-content h3,
 .markdown-content h4,
@@ -230,29 +229,28 @@ nav a:hover {
     margin-bottom: 1rem;
     font-weight: 700;
     line-height: 1.3;
-    color: #222; /* 标题深灰 */
+    color: #222;
 }
 
 .markdown-content h1 { font-size: 2rem; }
-.markdown-content h2 { font-size: 1.75rem; border-bottom: 2px solid #ccc; padding-bottom: 0.5rem; }
+.markdown-content h2 { font-size: 1.75rem; border-bottom: 2px solid #e8eaf6; padding-bottom: 0.5rem; }
 .markdown-content h3 { font-size: 1.5rem; }
 .markdown-content h4 { font-size: 1.25rem; }
 
 .markdown-content p {
     margin-bottom: 1.5rem;
-    color: #555; /* 段落灰色 */
 }
 
 .markdown-content a {
-    color: #333; /* 链接深灰 */
+    color: #6dea66;
     text-decoration: none;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #68ea66;
     transition: all 0.3s;
 }
 
 .markdown-content a:hover {
-    color: #555;
-    border-bottom-color: #555;
+    color: #4ba24f;
+    border-bottom-color: #4ba24f;
 }
 
 .markdown-content ul,
@@ -266,17 +264,17 @@ nav a:hover {
 }
 
 .markdown-content code {
-    background: #eee; /* 浅灰代码背景 */
+    background: #f4f4f4;
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
     font-family: 'Courier New', monospace;
     font-size: 0.9em;
-    color: #222; /* 深灰代码文字 */
+    color: #38d633;
 }
 
 .markdown-content pre {
-    background: #222; /* 深灰预格式背景 */
-    color: #eee; /* 浅灰文字 */
+    background: #2d3428;
+    color: #abb2bf;
     padding: 1.5rem;
     border-radius: 8px;
     overflow-x: auto;
@@ -292,12 +290,12 @@ nav a:hover {
 }
 
 .markdown-content blockquote {
-    border-left: 4px solid #555; /* 深灰左边框 */
+    border-left: 4px solid #85ea66;
     padding-left: 1.5rem;
     margin: 1.5rem 0;
     color: #666;
     font-style: italic;
-    background: #f8f8f8;
+    background: #f9f9f9;
     padding: 1rem 1.5rem;
     border-radius: 4px;
 }
@@ -307,7 +305,7 @@ nav a:hover {
     height: auto;
     border-radius: 8px;
     margin: 1.5rem 0;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .markdown-content table {
@@ -319,18 +317,18 @@ nav a:hover {
 .markdown-content table th,
 .markdown-content table td {
     padding: 0.75rem;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     text-align: left;
 }
 
 .markdown-content table th {
-    background: #eee;
+    background: #f4f4f4;
     font-weight: 600;
 }
 
 .markdown-content hr {
     border: none;
-    border-top: 2px solid #ccc;
+    border-top: 2px solid #e8eaf6;
     margin: 2rem 0;
 }
 
@@ -342,7 +340,7 @@ nav a:hover {
 
 .spinner {
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #555;
+    border-top: 4px solid #66ea75;
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -361,8 +359,8 @@ nav a:hover {
 }
 
 .error-message {
-    background: #fefefe;
-    border: 2px solid #ccc;
+    background: #fee;
+    border: 2px solid #fcc;
     color: #c33;
     padding: 2rem;
     border-radius: 8px;
@@ -372,8 +370,8 @@ nav a:hover {
 
 /* Footer */
 footer {
-    background: #222; /* 深灰底部 */
-    color: #fff;
+    background: #094102;
+    color: white;
     text-align: center;
     padding: 2rem 0;
     margin-top: 4rem;
@@ -384,13 +382,13 @@ footer p {
 }
 
 .footer-links a {
-    color: #555;
+    color: #ffffff;
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .footer-links a:hover {
-    color: #999;
+    color: #c2ff48;
 }
 
 /* Responsive */
@@ -432,41 +430,4 @@ footer p {
         flex-direction: column;
         align-items: flex-start;
     }
-
-    .posts-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* 搜索高亮 */
-.highlight {
-    background: #ddd;
-    color: #000;
-    border-radius: 3px;
-    padding: 0 2px;
-}
-
-/* 标签 hover */
-.tag:hover {
-    background: #333;
-    color: #fff;
-}
-
-/* 卡片 hover 动画强化 */
-.post-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-left-color 0.3s ease;
-}
-
-.post-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    border-left-color: #000;
-    cursor: pointer;
-}
-
-/* 搜索框 focus 效果 */
-#searchInput:focus {
-    outline: none;
-    border-color: #000;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }

@@ -3,43 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的博客</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Kiu's Note</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
-        <div class="container header-content">
-            <div class="site-title" onclick="location.reload()">我的博客</div>
-            <nav>
-                <a href="#" onclick="filterByCategory('all')">全部</a>
-                <a href="#" onclick="filterByCategory('生活')">生活</a>
-                <a href="#" onclick="filterByCategory('学习')">学习</a>
-            </nav>
+        <div class="container">
+            <div class="header-content">
+                <h1 class="site-title" onclick="location.href='index.html'">KIU's NOTEs</h1>
+                <nav>
+                    <a href="index.html">HOME</a>
+                    <a href="https://github.com/Kiu795" target="_blank">GitHub</a>
+                </nav>
+            </div>
         </div>
     </header>
 
     <main class="container">
-        <!-- 搜索栏 -->
-        <div class="hero">
-            <input type="text" id="searchInput" placeholder="搜索文章..." oninput="searchPosts()" style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid #ccc;">
-        </div>
+        <section class="hero">
+            <h2>Unlimited Progress!</h2>
+            
+        </section>
 
-        <!-- 文章网格 -->
-        <div id="postsGrid" class="posts-grid">
+        <section id="posts-container" class="posts-grid">
             <div class="loading">
                 <div class="spinner"></div>
-                <p>正在加载文章...</p>
+                <p>加载文章中...</p>
             </div>
-        </div>
+        </section>
     </main>
 
     <footer>
-        <p>© 2025 我的博客</p>
-        <div class="footer-links">
-            <a href="https://github.com">GitHub</a>
+        <div class="container">
+            <p>&copy; 2025 kiu795@163.com | Hosting on GitHub Pages</p>
+            <p class="footer-links">
+                <a href="https://github.com/Kiu795/kiu795.github.io" target="_blank">github repo</a>
+            </p>
         </div>
     </footer>
 
-    <script src="app.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
