@@ -450,3 +450,30 @@ footer p {
     border-color: #0b5f00;
     box-shadow: 0 0 5px rgba(11,95,0,0.3);
 }
+
+/* 搜索框 */
+.search-container {
+    margin: 2rem 0;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 2px solid #85ff7a; /* 默认边框颜色，可修改 */
+    background: #f7fff5;       /* 背景颜色，可修改 */
+    color: #333;               /* 文字颜色 */
+    transition: all 0.3s;
+}
+
+#searchInput::placeholder {
+    color: #6dea66; /* 占位符颜色 */
+}
+
+#searchInput:focus {
+    outline: none;
+    border-color: #0b5f00; /* 聚焦边框颜色，可修改 */
+    box-shadow: 0 0 8px rgba(11,95,0,0.3); /* 聚焦阴影 */
+    background: #fff; /* 聚焦背景颜色 */
+}
