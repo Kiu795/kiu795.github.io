@@ -1,58 +1,49 @@
-// ⚠️ 配置区域 - 替换为你的 GitHub 用户名
+// ⚠️ 配置区域 - 你的 GitHub 用户名
 const GITHUB_USERNAME = 'Kiu795';
 const REPO_NAME = `${GITHUB_USERNAME}.github.io`;
 
-// 从 GitHub 加载文章列表
+// 首页加载文章列表
 async function loadPosts() {
     const container = document.getElementById('posts-container');
+    if (!container) return;
 
     try {
-        // 获取 posts 目录下的所有文件
+        // 使用 GitHub API 获取 posts 文件夹下的所有文件
         const response = await fetch(
             `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/posts`,
-            {
-                headers: {
-                    'Accept': 'application/vnd.github.v3+json'
-                }
-            }
+            { headers: { 'Accept': 'application/vnd.github.v3+json' } }
         );
 
-        if (!response.ok) {
-            throw new Error('无法加载文章列表');
-        }
+        if (!response.ok) throw new Error('无法加载文章列表');
 
         const files = await response.json();
-        
-        // 过滤出 .md 文件并按日期排序
+
+        // 过滤出 Markdown 文件并按文件名倒序（最新的在前）
         const mdFiles = files
-            .filter(file => file.name.endsWith('.md'))
-            .sort((a, b) => b.name.localeCompare(a.name)); // 按文件名倒序（最新的在前）
+            .filter(f => f.name.endsWith('.md'))
+            .sort((a, b) => b.name.localeCompare(a.name));
 
         if (mdFiles.length === 0) {
-            container.innerHTML = `
-                <div class="error-message">
-                    <h3>📝 还没有文章</h3>
-                    <p>在 <code>posts/</code> 目录下添加 Markdown 文件来发布你的第一篇文章吧！</p>
-                </div>
-            `;
+            container.innerHTML = `<div class="error-message">
+                <h3>📝 还没有文章</h3>
+                <p>在 <code>posts/</code> 目录下添加 Markdown 文件来发布你的第一篇文章吧！</p>
+            </div>`;
             return;
         }
 
         container.innerHTML = '';
 
-        // 加载每篇文章的元数据
-        const posts = await Promise.all(
-            mdFiles.map(async (file) => {
-                try {
-                    const contentResponse = await fetch(file.download_url);
-                    const content = await contentResponse.text();
-                    return parsePost(content, file.name);
-                } catch (error) {
-                    console.error(`加载文章失败: ${file.name}`, error);
-                    return null;
-                }
-            })
-        );
+        // 遍历所有 Markdown 文件生成文章卡片
+        const posts = await Promise.all(mdFiles.map(async file => {
+            try {
+                const res = await fetch(file.download_url);
+                const content = await res.text();
+                return parsePost(content, file.name);
+            } catch (err) {
+                console.error(`加载文章失败: ${file.name}`, err);
+                return null;
+            }
+        }));
 
         // 渲染文章卡片
         posts.filter(Boolean).forEach(post => {
@@ -60,16 +51,12 @@ async function loadPosts() {
             container.appendChild(card);
         });
 
-    } catch (error) {
-        container.innerHTML = `
-            <div class="error-message">
-                <h3>❌ 加载失败</h3>
-                <p>${error.message}</p>
-                <p style="font-size: 0.9rem; margin-top: 1rem;">
-                    请检查 js/app.js 中的 GITHUB_USERNAME 是否正确
-                </p>
-            </div>
-        `;
+    } catch (err) {
+        container.innerHTML = `<div class="error-message">
+            <h3>❌ 加载失败</h3>
+            <p>${err.message}</p>
+            <p style="font-size:0.9rem;margin-top:1rem;">请检查 js/app.js 中的 GITHUB_USERNAME 是否正确</p>
+        </div>`;
     }
 }
 
@@ -89,41 +76,26 @@ function parsePost(content, filename) {
     if (match) {
         const frontMatter = match[1];
         body = match[2];
-
-        // 解析 YAML 格式
         frontMatter.split('\n').forEach(line => {
-            const colonIndex = line.indexOf(':');
-            if (colonIndex === -1) return;
-            
-            const key = line.slice(0, colonIndex).trim();
-            const value = line.slice(colonIndex + 1).trim();
-            
+            const idx = line.indexOf(':');
+            if (idx === -1) return;
+            const key = line.slice(0, idx).trim();
+            const value = line.slice(idx + 1).trim();
             if (key === 'tags') {
-                metadata.tags = value
-                    .replace(/[\[\]]/g, '')
-                    .split(',')
-                    .map(t => t.trim())
-                    .filter(Boolean);
-            } else {
-                metadata[key] = value;
-            }
+                metadata.tags = value.replace(/[\[\]]/g, '').split(',').map(t => t.trim()).filter(Boolean);
+            } else metadata[key] = value;
         });
     }
 
-    // 生成摘要
-    const excerpt = body
-        .replace(/[#*`\[\]]/g, '')
-        .replace(/\n+/g, ' ')
-        .slice(0, 200)
-        .trim();
+    const excerpt = body.replace(/[#*`\[\]]/g, '').replace(/\n+/g, ' ').slice(0, 200);
 
     return {
-        filename: filename,
+        filename,
         title: metadata.title,
         date: metadata.date,
         category: metadata.category,
         tags: metadata.tags,
-        excerpt: excerpt + (excerpt.length >= 200 ? '...' : ''),
+        excerpt: excerpt + (excerpt.length >= 200 ? '...' : '')
     };
 }
 
@@ -138,7 +110,6 @@ function createPostCard(post) {
     const card = document.createElement('div');
     card.className = 'post-card';
     card.onclick = () => viewPost(post.filename);
-
     card.innerHTML = `
         <div class="post-header">
             <h3 class="post-title">${escapeHtml(post.title)}</h3>
@@ -147,16 +118,13 @@ function createPostCard(post) {
         <p class="post-excerpt">${escapeHtml(post.excerpt)}</p>
         <div class="post-meta">
             <span class="post-category">${escapeHtml(post.category)}</span>
-            <div class="post-tags">
-                ${post.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
-            </div>
+            <div class="post-tags">${post.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
         </div>
     `;
-
     return card;
 }
 
-// 跳转到文章详情页
+// 跳转文章详情页
 function viewPost(filename) {
     window.location.href = `post.html?file=${encodeURIComponent(filename)}`;
 }
@@ -169,6 +137,4 @@ function escapeHtml(text) {
 }
 
 // 页面加载时执行
-if (document.getElementById('posts-container')) {
-    loadPosts();
-}
+document.addEventListener('DOMContentLoaded', loadPosts);
