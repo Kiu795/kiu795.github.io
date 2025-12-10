@@ -268,12 +268,12 @@ nav a:hover {
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
     font-family: 'Courier New', monospace;
-    font-size: 0.9em;
-    color: #38d633;
+    font-size: 1.1em;
+    color: #1c8819;
 }
 
 .markdown-content pre {
-    background: #2d3428;
+    background: #000000;
     color: #abb2bf;
     padding: 1.5rem;
     border-radius: 8px;
