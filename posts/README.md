@@ -1,3 +1,12 @@
+---
+title: Ascend RAGSDK框架部署全流程
+date: 2025-12-01
+category: 学习
+tags: [RAGSDK, Ascend]
+---
+
+
+
 # 昇腾Ascend RAGSDK 框架部署流程笔记
 
 ***
