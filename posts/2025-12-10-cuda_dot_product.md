@@ -1,5 +1,5 @@
 ---
-title: CUDA dot product 常规
+title: CUDA#1 dot product 常规
 date: 2025-12-10
 category: 学习
 tags: [CUDA, c++]
