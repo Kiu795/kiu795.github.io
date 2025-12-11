@@ -2,7 +2,7 @@
 title: CUDA#1 dot product 常规
 date: 2025-12-10
 category: 学习
-tags: [CUDA, c++]
+tags: [CUDA, c++, __syncthreads()]
 ---
 
 
@@ -214,3 +214,20 @@ int main(void){
 }
 ```
 
+## 3. 扩展 __syncthreads()
+
+### 线程分支
+
+代码示例：
+
+```c++
+int myVar = 0;
+if (threadIdx.x % 2){
+    myVar = threadIdx;
+    //__syncthreads()
+}
+```
+
+当执行条件判断时，只有偶数索引的线程才会进入执行后续代码，这就造成了线程分支，一部分线程进入执行，一部分线程空闲等待。
+
+这时如果`__syncthreads()`被放在了分支中执行，就造成了处理器挂起，因为奇数索引的线程永远不会执行到`_syncthreads()`,GPU会等待永远不会发生的事情。
