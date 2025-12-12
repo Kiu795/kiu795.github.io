@@ -180,5 +180,6 @@ int main(void){
 }
 ```
 
+output:
 
-
+![output](https://cdn.jsdelivr.net/gh/kiu795/pic@main/img/output.png)
