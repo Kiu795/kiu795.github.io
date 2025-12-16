@@ -44,3 +44,116 @@ tags: [CUDA, c++, 原子操作]
 这种直方图简单易懂，但是在计算机科学领域频繁地出现。它被广泛地应用于图像处理、数据压缩、计算机视觉、机器学习、音频编码等诸多算法中。
 
 ### 1.1 CPU直方图计算
+
+
+
+
+
+
+
+
+
+## 完整代码
+
+```c++
+#include "../../common/book.h"
+
+#define SIZE (100 * 1024 * 1024)
+
+__global__ void histo_kernel(unsigned char *buffer, long size, unsigned int *histo){
+    int i = threadIdx.x + blockIdx.x * blockDim.x;
+    int stride = blockDim.x * gridDim.x;
+
+    while (i < size){
+        //将histo数组中的对应位置加1，同时原子操作保证了硬件在执行这些操作期间没有任何其他线程可以对当前地址的值进行读写
+        atomicAdd(&(histo[buffer[i]]), 1);
+        i += stride;
+    }
+
+    // __shared__ unsigned int temp[256];
+    // temp[threadIdx.x] = 0;
+    // __syncthreads();
+    // int i = threadIdx.x + blockIdx.x * blockDim.x;
+    // int stride = blockDim.x * gridDim.x;
+    // while (i < size){
+    //     atomicAdd(&temp[buffer[i]], 1);
+    //     i += stride;
+    // }
+
+    // __syncthreads();
+    // atomicAdd(&(histo[threadIdx.x]), temp[threadIdx.x]);
+
+}
+
+int main(void){
+    unsigned char *buffer = (unsigned char*) big_random_block(SIZE);
+
+    //衡量代码性能
+    cudaEvent_t start, stop;
+    cudaEventCreate( &start );
+    cudaEventCreate( &stop );
+    cudaEventRecord( start, 0 );
+
+    //设置好需要输入的数据和事件后，转头看向GPU内存操作
+    
+    //分配文件数据在gpu上的内存空间
+    //一个存储字节流，一个存储计数流
+    unsigned char *dev_buffer;
+    unsigned int *dev_histo;
+
+    cudaMalloc((void**)&dev_buffer, SIZE);
+    cudaMemcpy(dev_buffer, buffer, SIZE, cudaMemcpyHostToDevice);
+
+    cudaMalloc((void**)&dev_histo, 256 * sizeof(int));
+    cudaMemset(dev_histo, 0, 256 * sizeof(int));
+
+    //因为数组大小是256，所以每个块中恰好有256个线程是最好的
+    //且据验证，当启动的块数恰好是GPU多处理器数量的两倍时，性能达到最优
+    cudaDeviceProp prop;
+    cudaGetDeviceProperties(&prop, 0);
+    int blocks = prop.multiProcessorCount;
+
+    //需要的三个参数：指向输入数组的指针，数据直方图的长度，以及指向输出数组的指针
+    histo_kernel<<<blocks * 2, 256>>>(dev_buffer, SIZE, dev_histo);
+
+    unsigned int histo[256];
+    cudaMemcpy(histo, dev_histo, 256 * sizeof(int), cudaMemcpyDeviceToHost);
+    //获取停止时间，并显示计时结果
+    cudaEventRecord(stop, 0);
+    cudaEventSynchronize( stop );
+
+    float elapsedTime;
+    cudaEventElapsedTime(&elapsedTime, start, stop);
+
+    printf("Time to generate: %3.1f ms\n", elapsedTime);
+
+    long histoCount = 0;
+    for (int i=0; i<256; i++){
+        histoCount += histo[i];
+    }
+
+    printf("Histogram Sum: %ld\n", histoCount);
+
+    //在CPU上进行反向验证
+    for (int i = 0; i < SIZE; i++){
+        //buffer 是大随机数组，从头向尾遍历，出现的元素是几，在histo这个计数数组中对应的数字的次数就减一
+        histo[buffer[i]] --;
+    }//最后计算之后如果histo数组变为全0就证明CPU&GPU计算的结果是一样的
+
+    for (int i = 0; i < 256; i++){
+        if (histo[i] != 0){
+            printf("Failure at %d!\n", i);
+        }
+    }
+
+    cudaEventDestroy(start);
+    cudaEventDestroy(stop);
+
+    cudaFree( dev_histo );
+    cudaFree( dev_buffer );
+    free(buffer);
+
+    return 0;
+}
+```
+
