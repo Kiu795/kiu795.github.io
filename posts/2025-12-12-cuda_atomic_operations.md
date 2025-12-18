@@ -45,15 +45,49 @@ tags: [CUDA, c++, 原子操作]
 
 ### 1.1 CPU直方图计算
 
+```c++
+#include "../common/book.h"
 
+#define SIZE (100*1024*1024)//规定数据的规模，100MB
 
+int main(void){
+    //初始化一个随机字符流
+    unsigned char *buffer = (unsigned char*)big_random_block(SIZE);
+    //初始化存放历史的直方图数组
+    unsigned int histo[256];
+    //循环将直方图构建
+    for (int i = 0; i < 256; i++) histo[i] = 0;
+    for (int i = 0; i < SIZE; i++) histo[buffer[i]] ++;
+    //计算历史数组中的总和
+    long histoCount = 0;
+    for (int i = 0; i < 256; i++) histoCount += histo[i];
+    printf( "Histogram Sum: %ld\n", histoCount );
+    //释放内存
+    free (buffer);
+    return 0;
+}
+```
 
+### 1.2 GPU计算直方图
 
+在GPU上计算直方图，让不同的线程分别处理缓冲区的不同部分可以节省大量时间，但问题在于，多个不同的线程可能想在同一时间递增输出直方图的同一个bin。这就需要原子递增来避免冲突。总之我们先来关注main函数部分。
 
+```c++
+int main(void){
+    unsigned char *buffer = (unsigned char*)big_random_block(SIZE);
+    ...
+```
 
+```c++
+	cudaEvent_t start, stop;
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
+	cudaEventRecord(start, 0);
+```
 
+//to be filled
 
-## 完整代码
+### 完整代码
 
 ```c++
 #include "../../common/book.h"
