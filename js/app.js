@@ -36,6 +36,15 @@ function parseFrontMatter(md) {
     return meta;
 }
 
+// 按日期排序（最新的在前面）
+function sortPostsByDate(posts) {
+    return [...posts].sort((a, b) => {
+        const dateA = new Date(a.date || '1970-01-01');
+        const dateB = new Date(b.date || '1970-01-01');
+        return dateB - dateA; // 降序排列（最新的在前）
+    });
+}
+
 // 渲染文章卡片
 function renderPosts(posts) {
     const container = document.getElementById('posts-container');
@@ -44,7 +53,10 @@ function renderPosts(posts) {
         return;
     }
 
-    container.innerHTML = posts.map(post => `
+    // 排序后再渲染
+    const sortedPosts = sortPostsByDate(posts);
+
+    container.innerHTML = sortedPosts.map(post => `
         <div class="post-card" onclick="location.href='post.html?file=${post.filename}'">
             <div class="post-header">
                 <h3 class="post-title">${post.title}</h3>
@@ -77,6 +89,13 @@ async function initPosts() {
 
     allPosts = posts;
     renderPosts(posts);
+    
+    // 在控制台输出排序结果（方便调试）
+    console.log('✅ 文章已加载并按日期排序（最新在前）：');
+    console.table(sortPostsByDate(posts).map(p => ({ 
+        标题: p.title, 
+        日期: p.date 
+    })));
 }
 
 // 搜索功能
