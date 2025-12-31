@@ -27,6 +27,9 @@ async function loadPost() {
             hljs.highlightElement(block);
         });
 
+        // 渲染 LaTeX 公式
+        MathJax.typeset();
+
     } catch (error) {
         container.innerHTML = `<div class="error-message">❌ ${error.message}</div>`;
     }

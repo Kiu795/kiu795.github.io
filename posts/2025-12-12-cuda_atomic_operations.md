@@ -104,6 +104,8 @@ __global__ void histo_kernel(unsigned char *buffer, long size, unsigned int *his
         i += stride;
     }
 
+    //虽然下面这个方法确实是教程中所推荐的，但毕竟今时不同往日，
+    //GPU的硬件水平已经上了台阶，适用于以前的硬件的优化方式放到今天可能起反作用
     // __shared__ unsigned int temp[256];
     // temp[threadIdx.x] = 0;
     // __syncthreads();
