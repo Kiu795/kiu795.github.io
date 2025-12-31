@@ -1,5 +1,5 @@
 ---
-title: Coursera#1 多元线性回归
+title: Coursera#2 多元线性回归
 date: 2025-12-17
 category: 学习
 tags: [ML, Vectorization]
