@@ -1,5 +1,5 @@
 ---
-title: [训练营]S2-1
+title: 训练营#S2-1
 date: 2026-03-19
 category: 训练营
 tags: [ML, Gradient Descent, DL]
